@@ -30,5 +30,11 @@ public class CacheTransactionsPersistenceServiceImpl implements TransactionServi
 		//eviction policy		
 	}
 
+	@Override
+	public Transaction retrieveTransaction(Long tnsId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	 
 }

@@ -14,6 +14,8 @@ public interface TransactionService {
 	public boolean isExpiredTransaction(Transaction tns);
 	
 	public void saveTransaction(Transaction tns);
+
+	Transaction retrieveTransaction(Long tnsId);
 	
 	
 }

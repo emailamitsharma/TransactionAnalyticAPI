@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.aks.api.exception.BadRequestException;
+import com.aks.api.exception.NoDataFoundException;
 import com.aks.api.model.Transaction;
 import com.aks.api.service.TransactionService;
 import com.aks.api.util.CustomErrorType;
@@ -52,5 +54,24 @@ public class TransactionController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(ucBuilder.path("/api/transactions/{id}").buildAndExpand(tns.getTnsId()).toUri());
 		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET , produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Transaction> retrieveTransaction(@PathVariable("id") long id) throws Exception {
+		logger.info("retrieving transaction : {}", id);
+
+		if (id <= 0l) { //incorrect id
+
+			logger.error("Unable to retrieveTransaction transaction as not having correct information ",id);
+
+			throw new BadRequestException(); // Error 400
+		}
+
+		Transaction tns = tnsService.retrieveTransaction(id);
+		
+		if(tns == null)
+			throw new NoDataFoundException();
+
+		return new ResponseEntity<Transaction>(tns, HttpStatus.OK);
 	}
 }

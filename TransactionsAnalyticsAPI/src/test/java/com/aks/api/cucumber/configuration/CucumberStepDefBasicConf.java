@@ -20,6 +20,6 @@ import com.aks.api.app.ExecuteApplication;
 @AutoConfigureMockMvc
 public class CucumberStepDefBasicConf {
 
-	@Value("${baseURLOfAPI}")
+	@Value("${baseURLOfAPI:http://localhost:8080/N26/api/statistics/}")
 	public String baseURLForAPI;
 }
