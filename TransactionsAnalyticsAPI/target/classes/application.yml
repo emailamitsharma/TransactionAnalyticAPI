@@ -1,0 +1,7 @@
+---
+server:
+  port: 8080
+  contextPath: /N26/
+---
+spring:
+  profiles: local, default
